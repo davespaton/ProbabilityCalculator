@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Calculator.Api.Controllers;
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class ProbabilityController : ControllerBase
 {
     private readonly IProbabilityCalculator _probabilityCalculator;

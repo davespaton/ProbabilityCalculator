@@ -34,6 +34,14 @@ var app = builder.Build();
     app.UseHttpsRedirection();
     app.UseAuthorization();
     app.MapControllers();
+
+    app.UseCors(policyBuilder =>
+    {
+        policyBuilder
+            .WithOrigins("http://localhost:3000")
+            .WithMethods("GET")
+            .WithHeaders("Accept", "application/json");
+    });
 }
 
 try
