@@ -38,9 +38,10 @@ internal class ProbabilityCalculator : IProbabilityCalculator
 
         double result = calculator.Calculate();
 
-        _logger.LogInformation("[{date}] Calculation for: {request} = {result}",
+        _logger.LogInformation("[{date}] Calculation for: {type}, {probabilities} = {result}",
             DateTime.UtcNow,
-            calculateProbability,
+            calculateProbability.Type,
+            calculateProbability.Probabilities,
             result
         );
 
