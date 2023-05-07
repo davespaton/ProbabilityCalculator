@@ -1,4 +1,5 @@
 using Calculator.Probability.Models;
+using Calculator.Probability.Validators;
 using FakeItEasy;
 using FluentValidation.Results;
 using Microsoft.Extensions.Logging;
@@ -7,20 +8,37 @@ namespace Calculator.Probability.Tests;
 
 public class CombinedWithCalculatorTests
 {
-    private readonly ILogger<ProbabilityCalculator> _logger;
+    private readonly ILogger _logger;
 
     public CombinedWithCalculatorTests()
     {
-        _logger = A.Fake<ILogger<ProbabilityCalculator>>();
+        _logger = A.Fake<ILogger>();
     }
 
-    ProbabilityCalculator GetProbabilityCalculator()
-        => new ProbabilityCalculator(_logger);
+    private ProbabilityCalculator GetProbabilityCalculator() => new(_logger, new CalculateProbabilityValidator());
 
-    ProbabilityResult Calculate(ProbabilityCalculator calculator, double pA, double pB)
+    private static ProbabilityResult Calculate(ProbabilityCalculator calculator, double pA, double pB)
     {
-        CalculateProbability calculateProbability = new(Models.ProbabilityType.CombinedWith, new[] { pA, pB });
+        CalculateProbability calculateProbability = new(ProbabilityType.CombinedWith, new[] { pA, pB });
         return calculator.Calculate(calculateProbability);
+    }
+
+    [Fact]
+    public void Calculate_EmptyProbabilities_ReturnsErrors()
+    {
+        // Arrange
+        ProbabilityCalculator calculator = GetProbabilityCalculator();
+
+        // Act
+        ProbabilityResult actual = calculator.Calculate(new CalculateProbability(ProbabilityType.CombinedWith, Array.Empty<double>()));
+
+        // Assert
+        Assert.False(actual.IsSuccess);
+        Assert.Null(actual.Result);
+
+        ValidationFailure failure = actual.ValidationFailures!.Single();
+        Assert.Equal(nameof(CalculateProbability.Probabilities), failure.PropertyName);
+        Assert.Equal(CalculateProbabilityValidator.Empty, failure.ErrorMessage);
     }
 
     [Theory]
@@ -32,18 +50,17 @@ public class CombinedWithCalculatorTests
     {
         // Arrange
         ProbabilityCalculator calculator = GetProbabilityCalculator();
-        var expected = new List<ValidationFailure>
-        {
-            new("Probabilities", "Probabilities must be between 0 and 1")
-        };
 
         // Act
         ProbabilityResult actual = Calculate(calculator, pA, pB);
 
         // Assert
         Assert.False(actual.IsSuccess);
-        Assert.Equal(expected, actual.ValidationFailures);
         Assert.Null(actual.Result);
+
+        ValidationFailure failure = actual.ValidationFailures!.Single();
+        Assert.Equal(nameof(CalculateProbability.Probabilities), failure.PropertyName);
+        Assert.Equal(CalculateProbabilityValidator.ProbabilityRange, failure.ErrorMessage);
     }
 
     [Theory]
