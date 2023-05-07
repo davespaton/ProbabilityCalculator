@@ -17,7 +17,7 @@ public class ProbabilityControllerTests
     ProbabilityController GetController() => new(_fakeCalculator);
 
     [Fact]
-    public void Either_Valid_ReturnsDouble()
+    public void Either_Valid_ReturnsCalculateResponse()
     {
         // Arrange
         ProbabilityController controller = GetController();
@@ -29,8 +29,8 @@ public class ProbabilityControllerTests
 
         // Assert
         Assert.IsType<OkObjectResult>(actual);
-        double result = (double)((OkObjectResult)actual).Value!;
-        Assert.Equal(expectedResult, result);
+        CalculateProbabilityResponse result = (CalculateProbabilityResponse)((OkObjectResult)actual).Value!;
+        Assert.Equal(expectedResult, result.Probability);
     }
 
     [Fact]

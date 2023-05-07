@@ -12,12 +12,12 @@ const ProbabilityView = () => {
 
     const either = async () => {
         const result = await getEither(pA, pB);
-        setResult(result);
+        setResult(result.probability);
     }
 
     const combinedWith = async () => {
         const result = await getCombinedWith(pA, pB);
-        setResult(result);
+        setResult(result.probability);
     }
 
     const isValid = () => pA >= 0 && pA <= 1 && pB >= 0 && pB <= 1;
@@ -38,8 +38,8 @@ const ProbabilityView = () => {
             </div>
 
             <h2 className="text-2xl font-bold mt-4">Result</h2>
-            {result !== null && 
-                <p 
+            {result !== null &&
+                <p
                     className="text-1xl font-bold"
                     data-testid="result">{result}
                 </p>

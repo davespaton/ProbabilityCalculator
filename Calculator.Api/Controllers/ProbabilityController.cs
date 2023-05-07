@@ -15,8 +15,8 @@ public class ProbabilityController : ControllerBase
     }
 
     [HttpGet("either")]
-    [ProducesResponseType(typeof(double), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(CalculateProbabilityResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     public IActionResult Either(double pA, double pB)
     {
         ProbabilityResult result = _probabilityCalculator.Calculate(new CalculateProbability(ProbabilityType.Either, new[]{pA, pB}));
@@ -24,8 +24,8 @@ public class ProbabilityController : ControllerBase
     }
 
     [HttpGet("combined-with")]
-    [ProducesResponseType(typeof(double), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(CalculateProbabilityResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     public IActionResult CombinedWith(double pA, double pB)
     {
         ProbabilityResult result = _probabilityCalculator.Calculate(new CalculateProbability(ProbabilityType.CombinedWith, new[] { pA, pB }));
@@ -34,9 +34,9 @@ public class ProbabilityController : ControllerBase
 
     private IActionResult ProbabilityActionResult(ProbabilityResult result)
     {
-        if (result.IsSuccess)
+        if (result is { IsSuccess: true, Result: not null })
         {
-            return Ok(result.Result);
+            return Ok(new CalculateProbabilityResponse(result.Result.Value));
         }
 
         Dictionary<string, string[]> errors = result.ValidationFailures!
