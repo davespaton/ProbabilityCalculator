@@ -1,26 +1,25 @@
 # Calculator
-Simple probability calculator.
+Simple probability calculator.  React front end with .NET 7 API backend.
 
 ## Requirements
-[.NET 7 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
+[.NET 7 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)  
 [Node.js](https://nodejs.org/en)
 
 
-## Running the application
-
-Backend API
+## Backend API
 ```
 dotnet build
 dotnet run --project Calculator.Api
 ```
-Runs on port 5000 (https: 5001), with swagger available at: https://localhost:5001/swagger/index.html
+[Swagger](https://localhost:5001/swagger/index.html)
+Runs on port 5000 (https: 5001).  
 
-Frontend
+## Frontend
 ```
 cd Calculator.UI
 npm install
 npm run build
 npm run preview
 ```
-Runs on port 3000. http://localhost:3000/
-Default file output location: `Calculator.Api\calculator.log`
+Runs on port [3000](http://localhost:3000/)
+Default log file output location: `Calculator.Api\calculator.log`
