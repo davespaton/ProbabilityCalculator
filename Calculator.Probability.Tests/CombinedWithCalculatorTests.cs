@@ -15,7 +15,7 @@ public class CombinedWithCalculatorTests
         _logger = A.Fake<ILogger>();
     }
 
-    private ProbabilityCalculator GetProbabilityCalculator() => new(_logger, new CalculateProbabilityValidator());
+    private ProbabilityCalculator GetProbabilityCalculator() => new(_logger, new CalculateProbabilityValidator(), new ProbabilityCalculatorFactory());
 
     private static ProbabilityResult Calculate(ProbabilityCalculator calculator, double pA, double pB)
     {

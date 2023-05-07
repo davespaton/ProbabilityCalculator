@@ -1,4 +1,5 @@
-﻿using Calculator.Probability.Models;
+﻿using Calculator.Probability.Calculate;
+using Calculator.Probability.Models;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.Extensions.Logging;
@@ -13,13 +14,16 @@ internal class ProbabilityCalculator : IProbabilityCalculator
 {
     private readonly ILogger _logger;
     private readonly IValidator<CalculateProbability> _validator;
+    private readonly IProbabilityCalculatorFactory _probabilityCalculatorFactory;
 
     public ProbabilityCalculator(
         ILogger logger,
-        IValidator<CalculateProbability> validator)
+        IValidator<CalculateProbability> validator,
+        IProbabilityCalculatorFactory probabilityCalculatorFactory)
     {
         _logger = logger;
         _validator = validator;
+        _probabilityCalculatorFactory = probabilityCalculatorFactory;
     }
 
     public ProbabilityResult Calculate(CalculateProbability calculateProbability)
@@ -30,7 +34,9 @@ internal class ProbabilityCalculator : IProbabilityCalculator
             return new ProbabilityResult(validationResponse.Errors);
         }
 
-        double result = 0;
+        ICalculate calculator = _probabilityCalculatorFactory.Get(calculateProbability);
+
+        double result = calculator.Calculate();
 
         return new ProbabilityResult(result);
     }

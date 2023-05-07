@@ -6,6 +6,7 @@ public static class ProbabilityServiceExtensions
     public static IServiceCollection AddProbabilityService(this IServiceCollection services)
     {
         services.AddScoped<IProbabilityCalculator, ProbabilityCalculator>();
+        services.AddScoped<IProbabilityCalculatorFactory, ProbabilityCalculatorFactory>();
 
         return services;
     }
