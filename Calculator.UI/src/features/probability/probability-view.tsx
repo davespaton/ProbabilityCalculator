@@ -30,7 +30,9 @@ const ProbabilityView = () => {
                 <ProbabilityInput name={"B"} onChange={setPb} value={pB}  />
             </div>
 
-            {!isValid() && <span>Input values must be between 0 and 1</span>}
+            {!isValid() && 
+                <span className="text-red-500">Input values must be between 0 and 1</span>
+            }
 
             <div className="flex flex-row gap-4 mt-4">
                 <ProbabilityButton isDisabled={!isValid()} onClick={either} text={"Either"} />
