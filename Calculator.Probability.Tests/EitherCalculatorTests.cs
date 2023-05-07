@@ -8,11 +8,11 @@ namespace Calculator.Probability.Tests;
 
 public class EitherCalculatorTests
 {
-    private readonly ILogger _logger;
+    private readonly ILogger<IProbabilityCalculator> _logger;
 
     public EitherCalculatorTests()
     {
-        _logger = A.Fake<ILogger>();
+        _logger = A.Fake<ILogger<IProbabilityCalculator>>();
     }
 
     private ProbabilityCalculator GetProbabilityCalculator() => new(_logger, new CalculateProbabilityValidator(), new ProbabilityCalculatorFactory());
@@ -92,7 +92,6 @@ public class EitherCalculatorTests
         _ = Calculate(calculator, 0.5, 0.5);
 
         // Assert
-        // TODO: Verify that the log message is correct
-        A.CallTo(() => _logger.LogInformation(A<string>._)).MustHaveHappenedOnceExactly();
+        _logger.AssertLog(LogLevel.Information).MustHaveHappenedOnceExactly();
     }
 }

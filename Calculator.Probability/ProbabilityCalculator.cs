@@ -12,12 +12,12 @@ public interface IProbabilityCalculator
 
 internal class ProbabilityCalculator : IProbabilityCalculator
 {
-    private readonly ILogger _logger;
+    private readonly ILogger<IProbabilityCalculator> _logger;
     private readonly IValidator<CalculateProbability> _validator;
     private readonly IProbabilityCalculatorFactory _probabilityCalculatorFactory;
 
     public ProbabilityCalculator(
-        ILogger logger,
+        ILogger<IProbabilityCalculator> logger,
         IValidator<CalculateProbability> validator,
         IProbabilityCalculatorFactory probabilityCalculatorFactory)
     {
@@ -37,6 +37,12 @@ internal class ProbabilityCalculator : IProbabilityCalculator
         ICalculate calculator = _probabilityCalculatorFactory.Get(calculateProbability);
 
         double result = calculator.Calculate();
+
+        _logger.LogInformation("[{date}] Calculation for: {request} = {result}",
+            DateTime.UtcNow,
+            calculateProbability,
+            result
+        );
 
         return new ProbabilityResult(result);
     }
