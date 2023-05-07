@@ -1,9 +1,10 @@
 import ProbabilityView from './features/probability/probability-view'
 
 function App() {
-
   return (
-    <ProbabilityView />
+    <div className='container mx-auto'>
+      <ProbabilityView />
+    </div>
   )
 }
 

@@ -1,3 +1,4 @@
+import { ProbabilityButton } from './components/probability-button';
 import ProbabilityInput from './components/probability-input'
 import {getCombinedWith, getEither} from './services/probability-api'
 import { useState } from "react";
@@ -23,17 +24,26 @@ const ProbabilityView = () => {
 
     return (
         <>
-            <h1>Probability Calculator</h1>
-            <ProbabilityInput name={"A"} onChange={setPa} value={pA}  />
-            <ProbabilityInput name={"B"} onChange={setPb} value={pB}  />
+            <h1 className="text-3xl font-bold">Probability Calculator</h1>
+            <div className="flex flex-row gap-4 mt-4">
+                <ProbabilityInput name={"A"} onChange={setPa} value={pA}  />
+                <ProbabilityInput name={"B"} onChange={setPb} value={pB}  />
+            </div>
 
             {!isValid() && <span>Input values must be between 0 and 1</span>}
 
-            <button disabled={!isValid()} onClick={either}>Either</button>
-            <button disabled={!isValid()} onClick={combinedWith}>CombinedWith</button>
+            <div className="flex flex-row gap-4 mt-4">
+                <ProbabilityButton isDisabled={!isValid()} onClick={either} text={"Either"} />
+                <ProbabilityButton isDisabled={!isValid()} onClick={combinedWith} text={"CombinedWith"} />
+            </div>
 
-            <h2>Result</h2>
-            {result !== null && <p data-testid="result">{result}</p>}
+            <h2 className="text-2xl font-bold mt-4">Result</h2>
+            {result !== null && 
+                <p 
+                    className="text-1xl font-bold"
+                    data-testid="result">{result}
+                </p>
+            }
         </>
     )
 

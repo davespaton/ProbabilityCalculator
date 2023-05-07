@@ -8,9 +8,13 @@ const ProbabilityInput = (props: ProbabilityInputProps) => {
 
     const { onChange, value } = props;
     return (
-        <span>
-            <label htmlFor={props.name}>Probability {props.name}</label>
+        <span className="flex flex-col">
+            <label 
+                className="text-sm font-bold"
+                htmlFor={props.name}>Probability {props.name}
+            </label>
             <input
+                className="border border-gray-400 p-2 rounded-sm "
                 id={props.name}
                 type={"number"}
                 value={value}
