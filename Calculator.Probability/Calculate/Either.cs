@@ -10,5 +10,5 @@ internal sealed class Either : ICalculate
         _pA = pA;
         _pB = pB;
     }
-    public double Calculate() => _pA + _pB - (_pA * _pB);
+    public Probability Calculate() => _pA + _pB - (_pA * _pB);
 }

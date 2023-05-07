@@ -1,4 +1,5 @@
 ﻿using Calculator.Api.Controllers;
+using Calculator.Api.Models.Probability;
 using Calculator.Probability;
 using Calculator.Probability.Models;
 using FakeItEasy;

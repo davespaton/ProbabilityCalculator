@@ -2,5 +2,5 @@
 
 internal interface ICalculate
 {
-    double Calculate();
+    Probability Calculate();
 }

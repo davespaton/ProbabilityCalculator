@@ -1,3 +1,4 @@
+using Calculator.Api.Models.Probability;
 using Calculator.Probability;
 using Calculator.Probability.Models;
 using Microsoft.AspNetCore.Mvc;
